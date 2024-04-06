@@ -1,7 +1,5 @@
-package-lock.json
 build
 storage/*
 *.env
-dot-bridgestone-api.exe
 *.zip
 *.logs
