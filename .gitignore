@@ -2,4 +2,4 @@ build
 storage/*
 *.env
 *.zip
-*.logs
+/logs
