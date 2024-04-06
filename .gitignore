@@ -4,4 +4,4 @@ storage/*
 *.env
 dot-bridgestone-api.exe
 *.zip
-*.log
+*.logs
