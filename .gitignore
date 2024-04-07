@@ -3,3 +3,5 @@ storage/*
 *.env
 *.zip
 /logs
+/.vscode
+*.pyc
