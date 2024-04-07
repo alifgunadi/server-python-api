@@ -1,26 +1,26 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from flask import Flask, request, jsonify
 from utils import logger_setup
 
-HOST = "192.168.1.210"
-PORT = 4981
+app = Flask(__name__)
 logger = logger_setup.setup_logger()
 
 
-class NeuralHTTP(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-
-        self.wfile.write(
-            bytes("<html><body><h1>Judul Satu</h1></body></html>", "utf-8")
+@app.route("/")
+def do_GET():
+    try:
+        user_agent = request.headers["user-agent"]
+        client_ip = request.remote_addr
+        print(f"[CLIENT IP] {client_ip}")
+        print(f"[CLIENT HEADER] {user_agent}")
+        logger.info(f"[CLIENT] IP: {client_ip}, HEADER: {user_agent}")
+        return (
+            f"<html><body><h1>Device information:</h1></br><p>Client information: {user_agent}</p><p>Client IP: {client_ip}</p></body></html>",
+            200,
         )
+    except Exception as error:
+        print(f"An error occurred: {str(error)}")
+        return "An error occurred", 500
 
 
-server = HTTPServer((HOST, PORT), NeuralHTTP)
-logger.info(f"Server is running at {server}")
-print(f"Server is running at {HOST}:{PORT}")
-
-server.serve_forever()
-server.server_close()
-print("Server stopped!")
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=4432, debug=False)
